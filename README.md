@@ -82,10 +82,3 @@ Output:
 
 - Decryption uses [Tink](https://github.com/google/tink) (Google's crypto library).
 - The Go formatter pulls the payload from the `GOOGLE_PAY_PAYLOAD` env variable.
-- No files are required in the `input/` folder if everything is set in `.env`.
-
----
-
-## 📜 License
-
-MIT
