@@ -33,16 +33,22 @@ public class DecryptApp {
 
         // Choose correct Google public key manager
         GooglePaymentsPublicKeysManager keysManager = switch (env) {
-            case "prod", "production" -> GooglePaymentsPublicKeysManager.INSTANCE_PRODUCTION;
-            default -> GooglePaymentsPublicKeysManager.INSTANCE_TEST;
+            case "prod", "production" -> {
+                System.out.println("🔧 Using GooglePaymentsPublicKeysManager: PRODUCTION");
+                yield GooglePaymentsPublicKeysManager.INSTANCE_PRODUCTION;
+            }
+            default -> {
+                System.out.println("🔧 Using GooglePaymentsPublicKeysManager: TEST");
+                yield GooglePaymentsPublicKeysManager.INSTANCE_TEST;
+            }
         };
 
         // Decrypt the payload
         String decryptedMessage = new PaymentMethodTokenRecipient.Builder()
-                .protocolVersion("ECv2")
-                .recipientId(merchantId)
-                .addRecipientPrivateKey(ecPrivateKey)
                 .fetchSenderVerifyingKeysWith(keysManager)
+                .recipientId(merchantId)
+                .protocolVersion("ECv2")
+                .addRecipientPrivateKey(ecPrivateKey)
                 .build()
                 .unseal(payload);
 
