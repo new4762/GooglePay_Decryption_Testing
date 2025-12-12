@@ -47,7 +47,7 @@ Create a `.env` file in the project root with the following:
 
 ```dotenv
 GOOGLE_PAY_ENV=test # or prod
-GOOGLE_PAY_MERCHANT_ID=gateway:omise
+GOOGLE_PAY_MERCHANT_ID=gateway:your_gateway_name
 GOOGLE_PAY_PRIVATE_KEY=YOUR_PKCS8_BASE64_KEY
 GOOGLE_PAY_PAYLOAD={"signature":"...","protocolVersion":"ECv2",...}
 ```
