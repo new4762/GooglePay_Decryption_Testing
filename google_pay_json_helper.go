@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 
+	"example/internal/googlepay"
+
 	"github.com/joho/godotenv"
 )
 
@@ -17,11 +19,16 @@ func main() {
 	}
 
 	// Read environment variables
-	publicKey := "googletest"
+	privateKey := os.Getenv("GOOGLE_PAY_PRIVATE_KEY")
 	raw := os.Getenv("GOOGLE_PAY_PAYLOAD")
 
-	if publicKey == "" || raw == "" {
-		log.Fatal("❌ Missing GOOGLE_PAY_MERCHANT_ID or GOOGLE_PAY_PAYLOAD in environment")
+	if privateKey == "" || raw == "" {
+		log.Fatal("❌ Missing GOOGLE_PAY_PRIVATE_KEY or GOOGLE_PAY_PAYLOAD in environment")
+	}
+
+	publicKey, err := googlepay.PublicKeyFromBase64PKCS8(privateKey)
+	if err != nil {
+		log.Fatalf("❌ Failed to extract public key: %v", err)
 	}
 
 	type Wrapper struct {
